@@ -8,6 +8,7 @@ TagManager:
   - Head
   - Block
   - Food
+  - LepraFood
   layers:
   - Default
   - TransparentFX

@@ -15,18 +15,15 @@ public class CabezonaSerpiente : MonoBehaviour
     Direction direction;
     [SerializeField] private float _framerate = 0.2f;
     [SerializeField] private float _step = 0.16f;
-    public Vector2 _horizontalRange;
-    public Vector2 _verticalRange;
-    public GameObject _tailPrefab;
+    [SerializeField] public Vector2 _horizontalRange;
+    [SerializeField] public Vector2 _verticalRange;
+    [SerializeField] public GameObject _tailPrefab;
     
-    // Start is called before the first frame update
     void Start()
     {
         InvokeRepeating("Move", _framerate, _framerate);
-
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -56,6 +53,12 @@ public class CabezonaSerpiente : MonoBehaviour
         else if (col.CompareTag("Food"))
         {
             Tail.Add(Instantiate(_tailPrefab, Tail[Tail.Count - 1].position, Quaternion.identity).transform);
+            col.transform.position = new Vector2(Random.Range(_horizontalRange.x, _horizontalRange.y), Random.Range(_verticalRange.x, _verticalRange.y));
+        }
+        // 
+        else if (col.CompareTag("LepraFood"))
+        {
+            GetLepra();
             col.transform.position = new Vector2(Random.Range(_horizontalRange.x, _horizontalRange.y), Random.Range(_verticalRange.x, _verticalRange.y));
         }
     }
@@ -94,5 +97,11 @@ public class CabezonaSerpiente : MonoBehaviour
             Tail[i].position = lastPosition;
             lastPosition = temp;
         }
+    }
+
+    public void GetLepra()
+    {
+        //Destroy(Tail[Tail.Count - 1].gameObject); // Esta linea de codigo si se activa destruye el "Pedazo de cuerpo" de la serpiente
+        Tail.RemoveAt(Tail.Count - 1);
     }
 }
